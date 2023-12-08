@@ -103,4 +103,40 @@ const filmy = [
 			'Na zámek v podhůří Krkonoš přijíždí jeho nový majitel Štěpán se svojí snoubenkou, krásnou komtesou Blankou, a mladším bratrem Adamem. Cestou kočár nešťastně srazí kolemjdoucí dívku, Adam jí pomůže a ona se do něj zamiluje. Na zámku Adam objeví starou vlašskou knihu, která by měla obsahovat cestu k pokladům. Tajemné značky vlašské knihy však nedokáže vyluštit ani národopisec Jiráček, který v kraji sbírá pověsti a nevychází z údivu nad tím, že zdejší lidé stále věří v Krakonoše. Na zámku se objeví záhadný cizinec a nabídne Štěpánovi, že jej k pokladu za určitých podmínek dovede. Výprava do hor může začít. Naplní se Liduščina láska k Adamovi? Jakou záhadu skrývá starý obraz na zámku Hůrka a co strašlivého se v horách kdysi odehrálo? A kdo je vlastně Krakonoš a jaké je jeho největší tajemství? (csfd.cz, Česká televize)',
 		premiera: '2022-12-24',
 	},
+
+	{
+		id: 'pulp-fiction',
+		nazev: 'Pulp Fiction: Historky z podsvětí',
+		plakat: {
+			url: 'https://image.pmgstatic.com/cache/resized/w360/files/images/film/posters/162/169/162169102_17d5b3.jpg',
+			sirka: 420,
+			vyska: 592,
+		},
+		ochutnavka: 'Nejlepší film na světě',
+		popis:
+			'Nejkultovnější z kultovních filmů 90. let je autorskou Biblí Quentina Tarantina, který v tomto opusu definoval základní prvky své režisérské poetiky a vytvořil dílo rozněcující náročné kritiky na festivalu v Cannes, levicové a pravicové intelektuály i zedníky dopřávající si po těžké šichtě trochu oddychu.',
+		premiera: '1994-12-24',
+	}
 ]
+
+let seznamFilmu = document.querySelector("#seznam-filmu")
+seznamFilmu.innerHTML = ``
+filmy.forEach((filmy)=>{
+	seznamFilmu.innerHTML += `
+	<div class="col">
+	<div class="card">
+	  <img
+		src="${filmy.plakat.url}"
+		width="780"
+		height="520"
+		class="card-img-top"
+		alt="plakát"
+	  />
+	  <div class="card-body">
+		<h5 class="card-title">${filmy.nazev}</h5>
+		<p class="card-text">${filmy.ochutnavka}</p>
+		<a href="film.html#${filmy.id}" class="btn btn-primary">Přehrát</a>
+	  </div>
+	</div>
+  </div>`
+})

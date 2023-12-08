@@ -103,4 +103,188 @@ const filmy = [
 			'Na zámek v podhůří Krkonoš přijíždí jeho nový majitel Štěpán se svojí snoubenkou, krásnou komtesou Blankou, a mladším bratrem Adamem. Cestou kočár nešťastně srazí kolemjdoucí dívku, Adam jí pomůže a ona se do něj zamiluje. Na zámku Adam objeví starou vlašskou knihu, která by měla obsahovat cestu k pokladům. Tajemné značky vlašské knihy však nedokáže vyluštit ani národopisec Jiráček, který v kraji sbírá pověsti a nevychází z údivu nad tím, že zdejší lidé stále věří v Krakonoše. Na zámku se objeví záhadný cizinec a nabídne Štěpánovi, že jej k pokladu za určitých podmínek dovede. Výprava do hor může začít. Naplní se Liduščina láska k Adamovi? Jakou záhadu skrývá starý obraz na zámku Hůrka a co strašlivého se v horách kdysi odehrálo? A kdo je vlastně Krakonoš a jaké je jeho největší tajemství? (csfd.cz, Česká televize)',
 		premiera: '2022-12-24',
 	},
+
+	{
+		id: 'pulp-fiction',
+		nazev: 'Pulp Fiction: Historky z podsvětí',
+		plakat: {
+			url: 'https://image.pmgstatic.com/cache/resized/w360/files/images/film/posters/162/169/162169102_17d5b3.jpg',
+			sirka: 420,
+			vyska: 592,
+		},
+		ochutnavka: 'Nejlepší film na světě',
+		popis:
+			'Nejkultovnější z kultovních filmů 90. let je autorskou Biblí Quentina Tarantina, který v tomto opusu definoval základní prvky své režisérské poetiky a vytvořil dílo rozněcující náročné kritiky na festivalu v Cannes, levicové a pravicové intelektuály i zedníky dopřávající si po těžké šichtě trochu oddychu.',
+		premiera: '2023-12-10',
+	}
 ]
+
+
+const hash = location.hash.slice(1)
+
+let film = document.querySelector("#detail-filmu")
+
+
+
+const ziskejDatumPremiery = (datum) => {
+	const rozdil = dayjs(datum).diff(dayjs(), 'days');
+
+	if(rozdil === 0)
+	{
+		return "dnes"
+	}
+	if(rozdil === 1) {
+		return "zítra"
+	}
+
+	if(rozdil > 1) {
+		if(rozdil > 4){
+			return `za ${rozdil} dní`
+		}
+		return `za ${rozdil} dny`
+	}
+
+	if(rozdil < 0) {
+		if(rozdil === -1){
+			return "včera"
+		}
+
+		return `před ${rozdil.toString().slice(1)} dny`
+	}
+}
+
+filmy.forEach((filmy) => {
+	if (filmy.id === String(hash)) {
+		let zvolenyFilm = filmy
+
+		film.innerHTML = `
+<div class="row g-0">
+<div class="col-md-5">
+	<img
+		src="${zvolenyFilm.plakat.url}"
+		alt="plakát"
+		class="img-fluid rounded-start"
+		width="663"
+		height="909"
+	/>
+</div>
+<div class="col-md-7">
+	<div class="card-body">
+		<h5 class="card-title">${zvolenyFilm.nazev}</h5>
+		<p class="card-text">${zvolenyFilm.popis}</p>
+		<p class="card-text">
+			<small class="text-muted" id="premiera">Premiéra <strong>${dayjs(zvolenyFilm.premiera).format(`DD.MM.YYYY`)}</strong>, ${ziskejDatumPremiery(zvolenyFilm.premiera)}.</small
+			>
+		</p>
+		<h6>Hodnocení</h6>
+		<div class="stars">
+			<button
+				class="far fa-star button-star"
+				data-mdb-toggle="tooltip"
+				title="Nic moc"
+			>
+				1
+			</button>
+			<button
+				class="far fa-star button-star"
+				data-mdb-toggle="tooltip"
+				title="Ucházející"
+			>
+				2
+			</button>
+			<button
+				class="far fa-star button-star"
+				data-mdb-toggle="tooltip"
+				title="Dobrý"
+			>
+				3
+			</button>
+			<button
+				class="far fa-star button-star"
+				data-mdb-toggle="tooltip"
+				title="Skvělý"
+			>
+				4
+			</button>
+			<button
+				class="far fa-star button-star"
+				data-mdb-toggle="tooltip"
+				title="Úžasný"
+			>
+				5
+			</button>
+		</div>
+
+		<h6 class="mt-4">Poznámka</h6>
+		<form id="note-form">
+			<div class="row">
+				<div class="col-md-6 col-lg-7 col-xl-8 mb-2">
+					<div class="form-outline">
+						<textarea
+							class="form-control"
+							id="message-input"
+							rows="4"
+						></textarea>
+						<label class="form-label" for="message-input"
+							>Text poznámky</label
+						>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-5 col-xl-4">
+					<div class="form-check d-flex justify-content-center mb-2">
+						<input
+							class="form-check-input me-2 mb-2"
+							type="checkbox"
+							value=""
+							id="terms-checkbox"
+						/>
+						<label class="form-check-label" for="terms-checkbox">
+							Souhlasím se všeobecnými podmínky užívání.
+						</label>
+					</div>
+					<button type="submit" class="btn btn-primary btn-block">
+						Uložit
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+</div>`
+	}
+});
+
+const hvezdy = document.getElementsByClassName("fa-star")
+
+let zvolenaHodnota = 0;
+
+const hodnoceni = (cislo) => {
+	for (let index = 0; index < hvezdy.length; index++) {
+		const element = hvezdy[index];
+		if(index >= cislo) {
+			element.classList.add("far")
+			element.classList.remove("fas")
+		} else {
+			element.classList.remove("far")
+			element.classList.add("fas")
+		}
+	}
+}
+
+for (let i = 0; i < hvezdy.length; i++) {
+	hvezdy[i].addEventListener("click", (e) => {
+		zvolenaHodnota = e.target.textContent;
+	})
+}
+
+for (let i = 0; i < hvezdy.length; i++) {
+	hvezdy[i].addEventListener("mouseenter", (e) => {
+		hodnoceni(e.target.textContent)
+	})
+}
+
+for (let i = 0; i < hvezdy.length; i++) {
+	hvezdy[i].addEventListener("mouseleave", () => {
+		hodnoceni(zvolenaHodnota)
+	})
+}
